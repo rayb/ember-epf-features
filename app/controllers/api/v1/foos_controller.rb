@@ -1,9 +1,11 @@
+module Api
+  module V1
     class FoosController < ApplicationController
 
       respond_to :json
 
       def index
-          render json: Foo.limit(10), each_serializer: FooSerializer
+        render json: Foo.limit(10), each_serializer: FooSerializer
       end
 
       def show
@@ -15,7 +17,7 @@
         input = params[:foo].except(:client_id)
         foo =  Foo.create(input)
         foo.client_id = client_id
-        respond_with foo
+        respond_with foo, :location => api_foo_path(foo)
       end
 
       def update
@@ -25,5 +27,6 @@
       def destroy
         respond_with Foo.destroy(params[:id])
       end
-
+    end
   end
+end
